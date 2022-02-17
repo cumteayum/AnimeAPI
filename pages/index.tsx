@@ -12,7 +12,6 @@ const client = new ApolloClient({
 });
 
 export default function index({data: {topAnime}}: AnimeInterface[]) {
-  console.log(topAnime)
   return (
     <>
       <SearchBar />
@@ -35,7 +34,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const {data} = await client.query({
     query: TOP_ANIMES_QUERY,
   });
-  console.log(data)
   return {
     props: {
       data
