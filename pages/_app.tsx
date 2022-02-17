@@ -17,17 +17,6 @@ const client = new ApolloClient({
 });
 
 function Footer() {
-  const [width, setWidth] = useState(document.body.clientWidth);
-  useEffect(() => {
-    const handleResize = () => {
-      setWidth(document.body.clientWidth);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
   return (
       <div className="flex mb-3 overflow-hidden group">
         <div className="w-screen h-[2px] mt-3 mb-6 bg-gray-400">

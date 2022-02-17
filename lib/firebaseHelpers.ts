@@ -4,7 +4,8 @@ import {getDocs, doc, addDoc, onSnapshot, collection, getFirestore} from 'fireba
 interface Bookmark {
   title?: string;
   url?: string;
-  mal_id?: string;
+  mal_id?: string|number;
+  isWatched?: boolean;
 }
 
 const firebaseConfig = {
@@ -40,7 +41,7 @@ export function getAllBookmarks() {
       bookmarks.push(doc.data())
     });
   });
-  return bookmarks ?? [{title: "No Bookmarks", url: "", mal_id: ""}];
+  return bookmarks;
 }
 
 export function addBookmark(bookmark: Bookmark) {

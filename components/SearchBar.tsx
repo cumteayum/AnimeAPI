@@ -1,4 +1,5 @@
 import { createAvatar } from '@dicebear/avatars';
+import Link from 'next/link';
 import Image from 'next/image';
 import { useSession, signIn, signOut } from "next-auth/react";
 import * as style from '@dicebear/big-smile';
@@ -43,6 +44,11 @@ export default function SearchBar() {
     <div className="flex justify-between mt-4 ml-10 search-bar flex-cols">
       <input ref={searchRef} type="text" value={search} onChange={e => setSearch(e.target.value)} name="search" placeholder="Search" className="px-3 py-2 text-gray-100 bg-gray-900 rounded-lg outline-none focus:outline-green-400 duration-200"/>
       <button className="px-3 py-1 border border-green-400 rounded-lg shadow-lg hover:text-gray-800 hover:bg-green-400 duration-200 hover:shadow-green-400/50" onClick={() => searchAnime(search)}>Search</button>
+
+      <Link href={'/bookmarks'}>
+        <button className="text-gray-100 px-2 py-[4px] rounded-lg border border-slate-200 hover:border-white duration-200 hover:bg-gray-200 hover:text-gray-900">Bookmarks</button>
+      </Link>
+
     {session ? <div className="mr-16 md:mr-20"><Image onClick={() => {
       let res = confirm("Are you sure you want to log out?");
       if(res) {

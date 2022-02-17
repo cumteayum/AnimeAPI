@@ -1,18 +1,31 @@
 import Image from 'next/image';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useState, useEffect } from 'react';
-import {db, getAllBookmarks} from '../lib/firebaseHelpers';
+import {db, getAllBookmarks, addBookmark} from '../lib/firebaseHelpers';
 import { useRouter } from 'next/router';
-import {BookmarkIcon} from '@heroicons/react/outline'
-import {BookmarkIcon as BookmarkSolid} from '@heroicons/react/solid'
+import {BookmarkIcon, BellIcon, BadgeCheckIcon} from '@heroicons/react/outline'
 import {rectifyQueryParams as rectify} from '../lib/utils/rectifiers';
 import { pushRectifiedQueryParam } from '../lib/utils/rectifiers';
 import AnimeInterface from '../lib/interfaces/AnimeInterface';
 
 interface Bookmark {
   title?: string;
+  isWatched?: boolean;
   url?: string;
-  mal_id?: string;
+  mal_id?: string|number;
 }
+
+const notify = () => toast.info("Click on the poster!", {theme: 'dark', icon: <BellIcon />, toastId: Math.random(), pauseOnHover: false, draggable: false});
+
+function Toast(){
+  return (
+    <div>
+      <ToastContainer />
+    </div>
+  );
+}
+
 
 export default function Anime({title, episodes, image_url, description, score, mal_id}: AnimeInterface) {
   const router = useRouter();
@@ -20,7 +33,8 @@ export default function Anime({title, episodes, image_url, description, score, m
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
   const pushQuery = (str: string, id: number | string) => router.push(`/anime/${pushRectifiedQueryParam(str, id)}`);
   const handleBookmark = (e: Event): void => {
-    e.preventDefault();
+    addBookmark({title, mal_id, url: image_url, isWatched: false});
+    toast.success("Bookmark deleted!", {theme: 'dark', icon: <BadgeCheckIcon/>, toastId: Math.random(), pauseOnHover: false, draggable: false})
   };
   useEffect(() => {
     setBookmarks(getAllBookmarks());
